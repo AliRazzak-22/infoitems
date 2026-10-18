@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b1220">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https: wss:; img-src 'self' data:;">
+<title>لوحة المالك — صيدلية درب الشفاء</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b1220;--card:#111a2e;--card2:#16223c;--line:#22304f;--tx:#e8eefb;--mut:#8fa1c2;--teal:#2dd4bf;--gold:#fbbf24;--red:#f87171;--blue:#60a5fa;--grn:#34d399}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{background:var(--bg);color:var(--tx);font-family:'Cairo',sans-serif;font-size:15px}
+body{padding-bottom:76px}
+header{position:sticky;top:0;z-index:50;background:linear-gradient(180deg,#0d1526f2,#0b1220e6);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:10px 14px;display:flex;align-items:center;gap:10px}
+header .ttl{font-weight:800;font-size:17px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dot{width:9px;height:9px;border-radius:50%;background:#64748b;flex:none}
+.dot.on{background:var(--grn);box-shadow:0 0 8px var(--grn);animation:pl 2s infinite}
+@keyframes pl{50%{opacity:.5}}
+.sync{font-size:11px;color:var(--mut);white-space:nowrap}
+.rbtn{background:var(--card2);border:1px solid var(--line);color:var(--tx);border-radius:10px;padding:6px 12px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer}
+.rbtn:active{transform:scale(.95)}
+main{padding:12px;max-width:760px;margin:0 auto}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.card .lb{font-size:12px;color:var(--mut);font-weight:600}
+.card .vl{font-size:20px;font-weight:800;margin-top:2px}
+.card .sub{font-size:11px;color:var(--mut);margin-top:2px}
+.wide{grid-column:1/-1}
+.c-teal .vl{color:var(--teal)}.c-gold .vl{color:var(--gold)}.c-red .vl{color:var(--red)}.c-blue .vl{color:var(--blue)}.c-grn .vl{color:var(--grn)}
+.sec-t{font-size:15px;font-weight:800;margin:16px 2px 8px;display:flex;align-items:center;gap:8px}
+.sec-t::before{content:'';width:4px;height:16px;border-radius:2px;background:var(--teal)}
+.pills{display:flex;gap:8px;margin:6px 0 10px;flex-wrap:wrap}
+.pill{background:var(--card2);border:1px solid var(--line);border-radius:999px;padding:5px 14px;font-size:12.5px;font-weight:700;color:var(--mut);cursor:pointer}
+.pill.on{background:var(--teal);border-color:var(--teal);color:#062622}
+.row{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:8px}
+.row .top{display:flex;align-items:center;gap:8px}
+.row .nm{font-weight:700;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row .amt{font-weight:800;white-space:nowrap}
+.badge{font-size:10.5px;font-weight:800;border-radius:6px;padding:2px 7px;white-space:nowrap}
+.b-red{background:#7f1d1d33;color:var(--red);border:1px solid #7f1d1d66}
+.b-grn{background:#064e3b33;color:var(--grn);border:1px solid #064e3b66}
+.b-gold{background:#78350f33;color:var(--gold);border:1px solid #78350f66}
+.b-blue{background:#1e3a8a33;color:var(--blue);border:1px solid #1e3a8a66}
+.meta{font-size:11.5px;color:var(--mut);margin-top:3px}
+.rank{width:24px;height:24px;border-radius:8px;background:var(--card2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:var(--teal);flex:none}
+.det{border-top:1px dashed var(--line);margin-top:8px;padding-top:8px;font-size:12.5px}
+.det table{width:100%;border-collapse:collapse;font-size:12px}
+.det th{color:var(--mut);font-weight:600;text-align:right;padding:4px 2px;border-bottom:1px solid var(--line)}
+.det td{padding:4px 2px;border-bottom:1px solid #1a2740}
+.bar-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:12px}
+.bar-row .d{width:56px;color:var(--mut);flex:none;font-size:11px}
+.bar-track{flex:1;height:16px;background:var(--card2);border-radius:6px;overflow:hidden}
+.bar-fill{height:100%;background:linear-gradient(90deg,#0d9488,#2dd4bf);border-radius:6px;min-width:2px}
+.bar-row .v{width:80px;text-align:left;font-weight:700;font-size:11.5px;flex:none}
+.srch{width:100%;background:var(--card2);border:1px solid var(--line);border-radius:10px;color:var(--tx);padding:9px 12px;font-family:inherit;font-size:13.5px;margin-bottom:10px;outline:none}
+.srch:focus{border-color:var(--teal)}
+nav{position:fixed;bottom:0;left:0;right:0;z-index:50;background:#0d1526f5;backdrop-filter:blur(10px);border-top:1px solid var(--line);display:flex;padding-bottom:env(safe-area-inset-bottom)}
+nav .ni{flex:1;text-align:center;padding:8px 2px 7px;font-size:10.5px;font-weight:700;color:var(--mut);cursor:pointer;border-top:2px solid transparent}
+nav .ni.on{color:var(--teal);border-top-color:var(--teal)}
+nav .ni .ic{font-size:18px;display:block;margin-bottom:1px}
+.empty{text-align:center;color:var(--mut);padding:30px 10px;font-size:13px}
+#loader{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;gap:14px;align-items:center;justify-content:center;z-index:99}
+.spin{width:42px;height:42px;border:4px solid var(--line);border-top-color:var(--teal);border-radius:50%;animation:sp 1s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.sum-strip{display:flex;gap:14px;overflow-x:auto;padding:2px;font-size:12px;color:var(--mut)}
+.sum-strip b{color:var(--tx)}
+.note{background:#78350f22;border:1px solid #78350f55;color:var(--gold);border-radius:10px;padding:8px 12px;font-size:12px;margin-bottom:10px}
+</style>
+</head>
+<body>
+<div id="loader"><div class="spin"></div><div style="color:var(--mut);font-size:13px">جارٍ الاتصال بالسحابة…</div></div>
+
+<header>
+  <div class="dot" id="dot"></div>
+  <div class="ttl" id="phName">لوحة المالك</div>
+  <div class="sync" id="syncAt"></div>
+  <button class="rbtn" id="refBtn">تحديث</button>
+</header>
+
+<main id="root"></main>
+
+<nav id="nav"></nav>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script>
+'use strict';
+/* ═══ إعدادات نفس سحابة البرنامج ═══ */
+firebase.initializeApp({
+  apiKey: "AIzaSyCtz6MiAPW5I1BDNqJXMe-q8CgOrsEfC10",
+  authDomain: "healingpath-51637.firebaseapp.com",
+  databaseURL: "https://healingpath-51637-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "healingpath-51637",
+  storageBucket: "healingpath-51637.firebasestorage.app",
+  messagingSenderId: "247914857779",
+  appId: "1:247914857779:web:1c0e49c02d3ce6f109aa46",
+  measurementId: "G-J9RBTGLVV2"
+});
+const db = firebase.database();
+
+/* ═══ مخزن البيانات ═══ */
+const S = { products:{}, sales:{}, purchases:{}, suppliers:{}, payments:{}, settings:null };
+let cur = 'dash', topPeriod = 30, purQ = '', shQ = '', expanded = new Set();
+
+/* ═══ أدوات ═══ */
+const $ = s => document.querySelector(s);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const money = n => { n = Math.round((+n || 0) * 100) / 100; return n.toLocaleString('en-US'); };
+const curSym = () => (S.settings && S.settings.currency) || 'د.ع';
+const lowStockLim = () => (S.settings && S.settings.lowStock) || 10;
+const todayStr = () => { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); };
+const monthStr = () => todayStr().slice(0,7);
+const baseFactor = p => { let f = 1; (p.units || []).forEach((u,i) => { if (i > 0) f *= (+u.perNext || 1); }); return f; };
+const topName = p => (p.units && p.units.length ? p.units[p.units.length-1].name : 'وحدة');
+const topQty = p => (+p.stockBase || 0) / baseFactor(p);
+const arr = o => Object.values(o || {}).filter(x => x && !x.deleted);
+const fmtT = ts => { const d = new Date(ts); return String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0'); };
+
+/* ═══ الأقسام ═══ */
+const TABS = [
+  ['dash','🏠','الرئيسية'],
+  ['top','🔥','الأكثر سحباً'],
+  ['stock','📦','المخزون'],
+  ['purch','🧾','المشتريات'],
+  ['supp','🤝','المجهزون'],
+];
+
+function renderNav() {
+  $('#nav').innerHTML = TABS.map(([k,ic,lb]) =>
+    `<div class="ni${cur===k?' on':''}" data-t="${k}"><span class="ic">${ic}</span>${lb}</div>`).join('');
+  document.querySelectorAll('#nav .ni').forEach(el => el.onclick = () => { cur = el.dataset.t; render(); window.scrollTo(0,0); });
+}
+
+/* ── الرئيسية ── */
+function vDash() {
+  const t = todayStr(), m = monthStr();
+  const sales = arr(S.sales);
+  const sT = sales.filter(s => s.date === t && s.type !== 'return');
+  const rT = sales.filter(s => s.date === t && s.type === 'return');
+  const sM = sales.filter(s => (s.date||'').startsWith(m) && s.type !== 'return');
+  const net = a => a.reduce((x,s) => x + (+s.net||0), 0);
+  const prof = a => a.reduce((x,s) => x + (+s.profit||0), 0);
+  const purch = arr(S.purchases).filter(p => p.type !== 'return');
+  const pM = purch.filter(p => (p.date||'').startsWith(m));
+  const debt = arr(S.suppliers).reduce((x,s) => x + (+s.debt||0), 0);
+  let vBuy = 0, vSell = 0, shCount = 0;
+  arr(S.products).forEach(p => {
+    const sb = +p.stockBase || 0, bf = baseFactor(p);
+    vBuy += (+p.purchasePriceTop || 0) * sb / bf;
+    vSell += (+p.salePriceBase || 0) * sb;
+    if (sb <= lowStockLim() * bf) shCount++;
+  });
+  const creditLeft = sales.reduce((x,s) => x + (+s.remaining||0), 0);
+
+  // آخر 7 أيام
+  const days = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(); d.setDate(d.getDate() - i);
+    const ds = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+    const tot = sales.filter(s => s.date === ds && s.type !== 'return').reduce((x,s) => x + (+s.net||0), 0);
+    days.push({ d: ds.slice(5), tot });
+  }
+  const mx = Math.max(1, ...days.map(x => x.tot));
+
+  return `
+  <div class="grid">
+    <div class="card c-teal"><div class="lb">مبيعات اليوم</div><div class="vl">${money(net(sT))}</div><div class="sub">${sT.length} فاتورة · مرتجع ${money(net(rT))}</div></div>
+    <div class="card c-grn"><div class="lb">ربح اليوم</div><div class="vl">${money(prof(sT))}</div><div class="sub">${curSym()}</div></div>
+    <div class="card c-blue"><div class="lb">مبيعات الشهر</div><div class="vl">${money(net(sM))}</div><div class="sub">ربح ${money(prof(sM))}</div></div>
+    <div class="card c-gold"><div class="lb">مشتريات الشهر</div><div class="vl">${money(pM.reduce((x,p)=>x+(+p.total||0),0))}</div><div class="sub">${pM.length} قائمة</div></div>
+    <div class="card c-red"><div class="lb">ديون المجهزين (علينا)</div><div class="vl">${money(debt)}</div><div class="sub">${curSym()}</div></div>
+    <div class="card c-gold"><div class="lb">ديون الزبائن (لنا)</div><div class="vl">${money(creditLeft)}</div><div class="sub">آجل غير مسدد</div></div>
+    <div class="card wide c-teal"><div class="lb">قيمة المخزون</div><div class="vl">${money(vBuy)} <span style="font-size:12px;color:var(--mut)">شراء</span> · ${money(vSell)} <span style="font-size:12px;color:var(--mut)">بيع</span></div><div class="sub">⚠️ ${shCount} صنف ناقص (حد النواقص: ${lowStockLim()})</div></div>
+  </div>
+  <div class="sec-t">مبيعات آخر 7 أيام</div>
+  <div class="card">${days.map(x => `
+    <div class="bar-row"><div class="d">${x.d}</div><div class="bar-track"><div class="bar-fill" style="width:${Math.round(x.tot/mx*100)}%"></div></div><div class="v">${money(x.tot)}</div></div>`).join('')}
+  </div>
+  <div class="sec-t">آخر الفواتير</div>
+  ${sales.sort((a,b)=>b.ts-a.ts).slice(0,10).map(s => `
+    <div class="row"><div class="top">
+      <div class="nm">${esc(s.customerName || 'زبون نقدي')}</div>
+      ${s.type==='return'?'<span class="badge b-red">مرتجع</span>':''}
+      ${s.pay==='credit'?'<span class="badge b-gold">آجل</span>':s.pay==='electronic'?'<span class="badge b-blue">إلكتروني</span>':'<span class="badge b-grn">نقد</span>'}
+      <div class="amt">${money(s.net)}</div>
+    </div><div class="meta">${esc(s.date)} · ${esc(s.time||fmtT(s.ts))} · ${esc(s.employeeName||'')}</div></div>`).join('') || '<div class="empty">لا مبيعات بعد</div>'}`;
+}
+
+/* ── الأكثر سحباً ── */
+function vTop() {
+  const sales = arr(S.sales);
+  let from = 0;
+  if (topPeriod === 1) { const d = todayStr(); from = new Date(d).getTime(); }
+  else if (topPeriod < 999) from = Date.now() - topPeriod * 864e5;
+  const agg = {};
+  sales.forEach(s => {
+    if (s.ts < from) return;
+    const sign = s.type === 'return' ? -1 : 1;
+    (s.items || []).forEach(it => {
+      const k = it.productId || it.name;
+      if (!agg[k]) agg[k] = { name: it.name, qty: 0, rev: 0, prof: 0 };
+      agg[k].qty += sign * (+it.qtyBase || +it.qty || 0);
+      agg[k].rev += sign * (+it.total || 0);
+      agg[k].prof += sign * ((+it.total||0) - (+it.cost||0) * (+it.qty||0));
+    });
+  });
+  const list = Object.values(agg).sort((a,b) => b.qty - a.qty).slice(0, 60);
+  const totRev = list.reduce((x,a) => x + a.rev, 0);
+  return `
+  <div class="pills">${[[1,'اليوم'],[7,'7 أيام'],[30,'30 يوم'],[999,'الكل']].map(([v,l]) =>
+    `<div class="pill${topPeriod===v?' on':''}" data-p="${v}">${l}</div>`).join('')}</div>
+  <div class="sum-strip"><span>إجمالي المبيعات: <b>${money(totRev)} ${curSym()}</b></span><span>الأصناف: <b>${list.length}</b></span></div>
+  <div style="height:8px"></div>
+  ${list.map((a,i) => {
+    const p = Object.values(S.products).find(x => x.id === a.name || x.brandName === a.name);
+    return `<div class="row"><div class="top">
+      <div class="rank">${i+1}</div>
+      <div class="nm">${esc(a.name)}</div>
+      <div class="amt" style="color:var(--teal)">${money(a.qty)} <span style="font-size:10px;color:var(--mut)">أصغر وحدة</span></div>
+    </div><div class="meta">مبيعات ${money(a.rev)} · ربح ${money(a.prof)} ${curSym()}</div></div>`;
+  }).join('') || '<div class="empty">لا بيانات في هذه الفترة</div>'}`;
+}
+
+/* ── المخزون والنواقص ── */
+function vStock() {
+  const lim = lowStockLim();
+  const prods = arr(S.products);
+  const short = prods.filter(p => (+p.stockBase||0) <= lim * baseFactor(p))
+    .sort((a,b) => (+a.stockBase||0) - (+b.stockBase||0));
+  const q = shQ.trim();
+  const shown = q ? short.filter(p => (p.brandName||'').includes(q) || (p.scientificName||'').toLowerCase().includes(q.toLowerCase()) || ((p.barcodes||[]).join(' ')).includes(q)) : short;
+  let vBuy = 0; prods.forEach(p => vBuy += (+p.purchasePriceTop||0) * (+p.stockBase||0) / baseFactor(p));
+  return `
+  <div class="grid" style="margin-bottom:10px">
+    <div class="card c-red"><div class="lb">أصناف ناقصة</div><div class="vl">${short.length}</div><div class="sub">من ${prods.length} صنف</div></div>
+    <div class="card c-teal"><div class="lb">قيمة المخزون (شراء)</div><div class="vl">${money(vBuy)}</div><div class="sub">${curSym()}</div></div>
+  </div>
+  <input class="srch" id="shSrch" placeholder="بحث بالاسم أو الباركود…" value="${esc(shQ)}">
+  ${shown.map(p => {
+    const tq = topQty(p), zero = (+p.stockBase||0) <= 0;
+    return `<div class="row"><div class="top">
+      <div class="nm">${esc(p.brandName)}${p.dose ? ' <span style="color:var(--mut);font-size:11px">' + esc(p.dose) + '</span>' : ''}</div>
+      <span class="badge ${zero?'b-red':'b-gold'}">${zero ? 'معدوم' : 'ناقص'}</span>
+      <div class="amt" style="color:${zero?'var(--red)':'var(--gold)'}">${money(Math.round(tq*100)/100)} ${esc(topName(p))}</div>
+    </div><div class="meta">${esc(p.company||'')} ${p.scientificName ? '· ' + esc(p.scientificName) : ''}</div></div>`;
+  }).join('') || '<div class="empty">لا توجد نواقص 🎉</div>'}`;
+}
+
+/* ── قوائم الشراء ── */
+function vPurch() {
+  const lists = arr(S.purchases).sort((a,b) => b.ts - a.ts);
+  const q = purQ.trim();
+  const shown = (q ? lists.filter(p => (p.supplierName||'').includes(q) || String(p.listNum||'').includes(q) || (p.items||[]).some(it => (it.name||'').includes(q))) : lists).slice(0, 150);
+  const totAll = lists.filter(p=>p.type!=='return').reduce((x,p) => x + (+p.total||0), 0);
+  return `
+  <div class="sum-strip"><span>عدد القوائم: <b>${lists.length}</b></span><span>إجمالي الشراء: <b>${money(totAll)} ${curSym()}</b></span></div>
+  <div style="height:8px"></div>
+  <input class="srch" id="purSrch" placeholder="بحث باسم المجهز أو رقم القائمة أو مادة…" value="${esc(purQ)}">
+  ${shown.map(p => {
+    const open = expanded.has(p.id);
+    return `<div class="row" data-x="${p.id}">
+      <div class="top">
+        <div class="nm">${esc(p.supplierName || 'بدون مجهز')}</div>
+        ${p.type==='return'?'<span class="badge b-red">مرتجع</span>':''}
+        ${p.pay==='credit'?'<span class="badge b-gold">آجل</span>':'<span class="badge b-grn">نقد</span>'}
+        <div class="amt">${money(p.total)}</div>
+      </div>
+      <div class="meta">${esc(p.date)} · ${esc(p.time||fmtT(p.ts))} · قائمة رقم <b style="color:var(--tx)">${esc(p.listNum ?? '—')}</b> · ${(p.items||[]).length} مادة · ${esc(p.employeeName||'')}</div>
+      ${open ? `<div class="det">
+        ${p.discount ? `<div style="color:var(--gold);margin-bottom:4px">خصم القائمة: ${money(p.discount)}</div>` : ''}
+        ${p.debtAfter != null && p.pay==='credit' ? `<div style="color:var(--red);margin-bottom:4px">دين المجهز بعدها: ${money(p.debtAfter)}</div>` : ''}
+        <table><tr><th>المادة</th><th>الكمية</th><th>سعر الشراء</th><th>الإجمالي</th><th>الانتهاء</th></tr>
+        ${(p.items||[]).map(it => `<tr><td>${esc(it.name)}</td><td>${money(it.qty)} ${esc(it.unitName||'')}</td><td>${money(it.buyPrice)}</td><td>${money(it.total)}</td><td>${esc(it.expiry||'—')}</td></tr>`).join('')}
+        </table></div>` : ''}
+    </div>`;
+  }).join('') || '<div class="empty">لا قوائم شراء</div>'}`;
+}
+
+/* ── حسابات المجهزين ── */
+function vSupp() {
+  const sups = arr(S.suppliers).sort((a,b) => (+b.debt||0) - (+a.debt||0));
+  const purch = arr(S.purchases);
+  const pays = arr(S.payments).filter(p => p.kind === 'payment');
+  const totDebt = sups.reduce((x,s) => x + (+s.debt||0), 0);
+  return `
+  <div class="card c-red" style="margin-bottom:10px"><div class="lb">إجمالي ديون المجهزين</div><div class="vl">${money(totDebt)} ${curSym()}</div></div>
+  ${sups.map(s => {
+    const open = expanded.has('s'+s.id);
+    const hisP = purch.filter(p => p.supplierId === s.id).sort((a,b) => b.ts - a.ts);
+    const hisY = pays.filter(p => p.supplierId === s.id).sort((a,b) => b.ts - a.ts);
+    const sumP = hisP.filter(p=>p.type!=='return').reduce((x,p) => x + (+p.total||0), 0);
+    const sumY = hisY.reduce((x,p) => x + (+p.amount||0) + (+p.discount||0), 0);
+    const timeline = [
+      ...hisP.slice(0,8).map(p => ({ ts:p.ts, tx:`قائمة رقم ${p.listNum ?? '—'} (${p.type==='return'?'مرتجع':'شراء'})`, amt:(p.type==='return'?-1:1)*(+p.total||0), c:'gold' })),
+      ...hisY.slice(0,8).map(p => ({ ts:p.ts, tx:'تسديد دفعة' + (p.discount ? ` + خصم ${money(p.discount)}` : ''), amt:-(+p.amount||0), c:'grn' }))
+    ].sort((a,b) => b.ts - a.ts).slice(0, 10);
+    return `<div class="row" data-x="s${s.id}">
+      <div class="top">
+        <div class="nm">${esc(s.name)}</div>
+        ${(+s.debt||0) > 0 ? '<span class="badge b-red">مديون</span>' : '<span class="badge b-grn">صافي</span>'}
+        <div class="amt" style="color:${(+s.debt||0)>0?'var(--red)':'var(--grn)'}">${money(s.debt)}</div>
+      </div>
+      <div class="meta">دين افتتاحي: ${money(s.openingDebt)} · آخر شراء: ${s.lastPurchase ? money(s.lastPurchase.amount) + ' — ' + new Date(s.lastPurchase.ts).toLocaleDateString('en-GB') : '—'}</div>
+      ${open ? `<div class="det">
+        <div class="sum-strip" style="margin-bottom:8px"><span>مشتريات: <b>${money(sumP)}</b></span><span>تسديدات: <b>${money(sumY)}</b></span><span>قوائم: <b>${hisP.length}</b></span></div>
+        ${timeline.map(e => `<div style="display:flex;gap:8px;padding:4px 0;border-bottom:1px solid #1a2740">
+          <span style="color:var(--mut);font-size:11px;flex:none">${new Date(e.ts).toLocaleDateString('en-GB')}</span>
+          <span style="flex:1">${esc(e.tx)}</span>
+          <b style="color:var(--${e.c==='grn'?'grn':'gold'})">${e.c==='grn'?money(-e.amt):money(e.amt)}</b>
+        </div>`).join('') || '<div class="empty">لا حركات</div>'}
+      </div>` : ''}
+    </div>`;
+  }).join('') || '<div class="empty">لا مجهزين</div>'}`;
+}
+
+/* ═══ العرض ═══ */
+function render() {
+  renderNav();
+  const R = $('#root');
+  if (cur === 'dash') R.innerHTML = vDash();
+  else if (cur === 'top') R.innerHTML = vTop();
+  else if (cur === 'stock') R.innerHTML = vStock();
+  else if (cur === 'purch') R.innerHTML = vPurch();
+  else R.innerHTML = vSupp();
+
+  document.querySelectorAll('.pill[data-p]').forEach(el => el.onclick = () => { topPeriod = +el.dataset.p; render(); });
+  document.querySelectorAll('.row[data-x]').forEach(el => el.onclick = ev => {
+    if (ev.target.closest('table')) return;
+    const id = el.dataset.x;
+    expanded.has(id) ? expanded.delete(id) : expanded.add(id);
+    render();
+  });
+  const ps = $('#purSrch'); if (ps) ps.oninput = () => { purQ = ps.value; render(); const n = $('#purSrch'); n.focus(); n.setSelectionRange(n.value.length, n.value.length); };
+  const ss = $('#shSrch'); if (ss) ss.oninput = () => { shQ = ss.value; render(); const n = $('#shSrch'); n.focus(); n.setSelectionRange(n.value.length, n.value.length); };
+}
+
+/* ═══ الاتصال الحي ═══ */
+let first = true;
+function mark() {
+  $('#dot').classList.add('on');
+  $('#syncAt').textContent = 'آخر تحديث ' + fmtT(Date.now());
+  if (first) { first = false; $('#loader').style.display = 'none'; }
+  if (S.settings && S.settings.pharmacyName) $('#phName').textContent = S.settings.pharmacyName;
+  render();
+}
+const REFS = ['products','sales','purchases','suppliers','payments'];
+let listeners = [];
+function attach() {
+  listeners.forEach(r => r.off()); listeners = [];
+  REFS.forEach(c => {
+    const r = db.ref('pos/' + c);
+    r.on('value', sn => { S[c] = sn.val() || {}; mark(); });
+    listeners.push(r);
+  });
+  const rs = db.ref('pos/settings/app');
+  rs.on('value', sn => { S.settings = sn.val(); mark(); });
+  listeners.push(rs);
+}
+$('#refBtn').onclick = () => { $('#dot').classList.remove('on'); attach(); };
+
+firebase.auth().onAuthStateChanged(u => { if (u) attach(); });
+firebase.auth().signInAnonymously().catch(err => {
+  $('#loader').innerHTML = '<div style="color:var(--red);padding:20px;text-align:center">فشل الاتصال: ' + esc(err.message) + '<br><br>تأكد من الإنترنت وأن قواعد Firebase تسمح بالدخول المجهول (مثل البرنامج الرئيسي)</div>';
+});
+</script>
+</body>
+</html>
