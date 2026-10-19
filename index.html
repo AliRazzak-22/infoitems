@@ -64,30 +64,44 @@ table{width:100%;border-collapse:collapse;font-size:12.5px}th{color:var(--mu);fo
 .ch{display:flex;justify-content:space-between;font-size:11px;color:var(--mu);margin-top:2px}
 #ld{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:99}
 .sp{width:30px;height:30px;border:3px solid var(--ln);border-top-color:var(--bl);border-radius:50%;animation:s 1s linear infinite}@keyframes s{to{transform:rotate(360deg)}}
-@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+body{background:transparent;padding-bottom:calc(100px + env(safe-area-inset-bottom))} body::before{content:"";position:fixed;inset:0;z-index:-1;background:radial-gradient(60% 40% at 90% 0%,#007aff33,transparent),radial-gradient(50% 35% at 5% 35%,#af52de2b,transparent),radial-gradient(60% 40% at 80% 95%,#34c7592b,transparent)} .t,.g{background:color-mix(in srgb,var(--c) 70%,transparent);-webkit-backdrop-filter:blur(22px) saturate(170%);backdrop-filter:blur(22px) saturate(170%);box-shadow:0 1px 0 #ffffff14 inset,0 8px 24px #0000000d} .lt h1,h2,.t .x,.r .v{font-weight:800} .r .n{font-weight:700;white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.35} .lg span{white-space:normal}.lg{min-width:170px}.dr{flex-wrap:wrap;justify-content:center} .tb{position:fixed;left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom));max-width:696px;margin:0 auto;display:flex;gap:2px;padding:5px;border-radius:24px;background:color-mix(in srgb,var(--c) 68%,transparent);-webkit-backdrop-filter:blur(28px) saturate(180%);backdrop-filter:blur(28px) saturate(180%);box-shadow:0 10px 30px #0003,0 0 0 .5px var(--ln);z-index:50} .tb button{flex:1;padding:10px 2px;border-radius:19px;font-size:12.5px;font-weight:700;color:var(--mu);transition:background .25s,color .25s} .tb button.on{background:var(--bl);color:#fff} .tab{display:none}.tab.on{display:block;animation:fi .35s ease} @keyframes fi{from{opacity:0;transform:translateY(10px)}} .stb{display:flex;height:10px;border-radius:5px;overflow:hidden;gap:2px;margin-bottom:8px}.stb i{display:block;height:100%} #sh{background:color-mix(in srgb,var(--bg) 80%,transparent);-webkit-backdrop-filter:blur(30px) saturate(180%);backdrop-filter:blur(30px) saturate(180%);box-shadow:0 -10px 40px #0004} .hd{background:color-mix(in srgb,var(--bg) 70%,transparent);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px)} #bk{-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)} table{font-size:11.5px}th,td{padding:8px 4px}td:first-child{overflow-wrap:anywhere;font-weight:600} @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
 <div id="ld"><div class="sp"></div></div>
 <main>
   <div class="lt"><h1 id="ttl">المشتريات</h1><span class="sy" id="sy"></span><span class="dot" id="dot"></span></div>
-  <div class="tiles" id="top"></div>
 
-  <h2>السحب والطلب</h2>
-  <div id="rep"></div>
+  <section class="tab on" data-t="st">
+    <div class="tiles" id="top"></div>
+    <div id="rep"></div>
+  </section>
 
-  <h2>المخزن</h2>
-  <input class="srch" id="qs" placeholder="ابحث بالاسم أو الباركود أو الشركة" enterkeyhint="search">
-  <div class="chips"><button data-a="flt" data-id="all" class="on">الكل</button><button data-a="flt" data-id="low">الناقص</button></div>
-  <div class="g" id="stk"></div>
+  <section class="tab" data-t="su">
+    <h2>حسابات المجهزين</h2>
+    <div class="g" id="sup"></div>
+  </section>
 
-  <h2>قوائم الشراء</h2>
-  <input class="srch" id="qp" placeholder="ابحث بالمجهز أو رقم القائمة أو المادة">
-  <div class="g" id="pur"></div>
+  <section class="tab" data-t="nd">
+    <h2>النقوصات</h2>
+    <div id="need"></div>
+  </section>
 
-  <h2>المجهزون</h2>
-  <div class="g" id="sup"></div>
+  <section class="tab" data-t="pu">
+    <h2>قوائم الشراء</h2>
+    <input class="srch" id="qp" placeholder="ابحث بالمجهز أو رقم القائمة أو المادة">
+    <div class="g" id="pur"></div>
+  </section>
+
+  <section class="tab" data-t="sk">
+    <h2>المخزن</h2>
+    <div id="sks"></div>
+    <input class="srch" id="qs" placeholder="ابحث بالاسم أو الباركود أو الشركة" enterkeyhint="search">
+    <div class="chips"><button data-a="flt" data-id="all" class="on">الكل</button><button data-a="flt" data-id="low">الناقص</button></div>
+    <div class="g" id="stk"></div>
+  </section>
 </main>
+<nav class="tb"><button data-a="tab" data-id="st" class="on">الإحصائيات</button><button data-a="tab" data-id="su">المجهزون</button><button data-a="tab" data-id="nd">النقوصات</button><button data-a="tab" data-id="pu">القوائم</button><button data-a="tab" data-id="sk">المخزن</button></nav>
 <div id="bk" data-a="back"></div>
 <div id="sh"><div id="shc"></div></div>
 
@@ -119,6 +133,10 @@ const prodOf=it=>PM[it.productId]||PN[it.name];
 const bn=it=>+(it.bonus??it.bonusQty??it.free)||0;
 const img=p=>{for(const k in p){if(/img|image|photo|pic|scan|paper|attach/i.test(k)){const v=Array.isArray(p[k])?p[k][0]:p[k];if(typeof v==='string'&&/^(data:image|https?:)/.test(v))return v}}return null};
 const sum=(o,n)=>{let t=0;for(let i=0;i<n;i++)t+=o.days[dk(Date.now()-i*864e5)]||0;return t};
+const tq=o=>Object.values(o.days).reduce((a,x)=>a+x,0),
+  fdk=o=>Object.keys(o.days).sort()[0],
+  nds=o=>Object.values(o.days).filter(x=>x>0).length,
+  rt=o=>{const k=fdk(o);if(!k)return 0;const n=Math.max(1,Math.ceil((Date.now()-new Date(k+'T00:00:00').getTime())/864e5)||1);return tq(o)/n};
 
 /* تجهيز البيانات */
 function prep(){
@@ -129,7 +147,7 @@ function prep(){
     (s.items||[]).forEach(it=>{const p=prodOf(it),k=p?p._k:it.name;
       const o=D[k]||(D[k]={k,name:p?p.brandName:it.name,p,days:{}});
       o.days[d]=(o.days[d]||0)+sg*(+it.qtyBase||+it.qty||0)/(p?bf(p):1)})});
-  NEED=Object.values(PM).map(p=>{const o=D[p._k],r=o?sum(o,30)/30:0,s=stk(p);
+    NEED=Object.values(PM).map(p=>{const o=D[p._k],r=o?rt(o):0,s=stk(p);
     return{p,r,s,dl:s<=0?0:r>0?s/r:Infinity,low:(+p.stockBase||0)<=lim()*bf(p)}})
     .filter(x=>x.low||x.dl<=14).sort((a,b)=>a.dl<b.dl?-1:a.dl>b.dl?1:0);
 }
@@ -146,22 +164,29 @@ function spark(v){if(v.length<2)return'';const mx=Math.max(...v),mn=Math.min(...
 
 /* الصفحة الرئيسية */
 function rTop(){
-  const debt=arr(S.suppliers).reduce((x,s)=>x+(+s.debt||0),0);
-  $('#top').innerHTML=`<button class="t" data-a="go" data-id="sup"><div class="k">ديون المجهزين</div><div class="x cr">${f(debt)}</div><div class="mu">${esc(cur())}</div></button>
-  <button class="t" data-a="go" data-id="rep"><div class="k">أصناف تحتاج طلب</div><div class="x" style="color:var(--or)">${NEED.length}</div><div class="mu">من ${Object.keys(PM).length} صنف</div></button>`;
+  const debt=arr(S.suppliers).reduce((x,s)=>x+(+s.debt||0),0),L=Object.values(PM),z=L.filter(p=>(+p.stockBase||0)<=0).length,td=Object.values(D).filter(o=>sum(o,1)>0).length;
+  $('#top').innerHTML=`<button class="t" data-a="tab" data-id="su"><div class="k">ديون المجهزين</div><div class="x cr">${f(debt)}</div><div class="mu">${esc(cur())}</div></button>
+  <button class="t" data-a="tab" data-id="nd"><div class="k">أصناف تحتاج طلب</div><div class="x" style="color:var(--or)">${NEED.length}</div><div class="mu">من ${L.length} صنف</div></button>
+  <button class="t" data-a="tab" data-id="sk"><div class="k">أصناف معدومة</div><div class="x cr">${z}</div><div class="mu">رصيدها صفر</div></button>
+  <div class="t"><div class="k">أصناف سُحبت اليوم</div><div class="x cg">${td}</div><div class="mu">صنف مختلف</div></div>`;
 }
 function rRep(){
-  const rows=Object.values(D).map(o=>({o,v:sum(o,per),t:sum(o,1),r:sum(o,30)/30})).filter(x=>x.v>0).sort((a,b)=>b.v-a.v);
+  const rows=Object.values(D).map(o=>({o,v:sum(o,per),t:sum(o,1),r:rt(o),q:tq(o),n:nds(o)})).filter(x=>x.v>0).sort((a,b)=>b.v-a.v);
   const tot=rows.reduce((x,a)=>x+a.v,0),t6=rows.slice(0,6).map(x=>({n:x.o.name,v:x.v})),rest=tot-t6.reduce((x,a)=>x+a.v,0);
   if(rest>.001)t6.push({n:'أخرى',v:rest});
   const mx=rows[0]?rows[0].v:1;
   const P=[[1,'اليوم'],[7,'7 أيام'],[30,'30 يوماً'],[90,'90 يوماً']];
+  const dly=Array.from({length:14},(_,i)=>Object.values(D).reduce((a,o)=>a+(o.days[dk(Date.now()-i*864e5)]||0),0));
   $('#rep').innerHTML=`<div class="seg">${P.map(([v,l])=>`<button data-a="per" data-id="${v}" class="${per===v?'on':''}">${l}</button>`).join('')}</div>
-  <div class="g">${rows.length?`<div class="r" style="gap:14px">${donut(t6,tot)}<div class="lg">${t6.map((x,i)=>`<div><i style="background:${COL[i]}"></i><span>${esc(x.n)}</span><b>${Math.round(x.v/tot*100)}%</b></div>`).join('')}</div></div>`:'<div class="pad mu">لا سحب في هذه الفترة</div>'}</div>
-  <div class="g" style="margin-top:12px">${rows.slice(0,lim_.r).map((x,i)=>`<button class="r" data-a="prod" data-id="${esc(x.o.k)}"><span class="rk">${i+1}</span><div class="b"><div class="n">${esc(x.o.name)}</div><div class="mu">اليوم ${f(x.t)} · المعدل ${f(x.r)} في اليوم</div><div class="bar"><i style="width:${x.v/mx*100}%"></i></div></div><div class="v">${f(x.v)}<div class="mu">${esc(un(x.o.p))}</div></div></button>`).join('')}
-  ${rows.length>lim_.r?`<button class="more" data-a="mr">عرض المزيد</button>`:''}</div>
-  <h2 style="font-size:18px;margin-top:24px">المطلوب طلبه <span class="mu" style="font-weight:400">(تغطية 30 يوماً)</span></h2>
-  <div class="g">${NEED.slice(0,25).map(x=>{const sg=Math.ceil(x.r*30-x.s),c=x.dl<=3?'r':x.dl<=7?'o':'b';
+  <div class="g">${rows.length?`<div class="r dr" style="gap:14px">${donut(t6,tot)}<div class="lg">${t6.map((x,i)=>`<div><i style="background:${COL[i]}"></i><span>${esc(x.n)}</span><b>${Math.round(x.v/tot*100)}%</b></div>`).join('')}</div></div>`:'<div class="pad mu">لا سحب في هذه الفترة</div>'}</div>
+  <h2 style="font-size:18px">السحب اليومي (14 يوماً)</h2><div class="g pad">${bars(dly)}</div>
+  <h2 style="font-size:18px">ترتيب الأصناف</h2>
+  <div class="g">${rows.slice(0,lim_.r).map((x,i)=>`<button class="r" data-a="prod" data-id="${esc(x.o.k)}"><span class="rk">${i+1}</span><div class="b"><div class="n">${esc(x.o.name)}</div><div class="mu">منذ ${dt(fdk(x.o))} · ${f(x.n)} يوم سحب · المعدل ${f(x.r)} يومياً</div><div class="mu">الإجمالي ${f(x.q)} ${esc(un(x.o.p))} · اليوم ${f(x.t)}</div><div class="bar"><i style="width:${x.v/mx*100}%"></i></div></div><div class="v">${f(x.v)}<div class="mu">${esc(un(x.o.p))}</div></div></button>`).join('')}
+  ${rows.length>lim_.r?`<button class="more" data-a="mr">عرض المزيد</button>`:''}</div>`;
+  rNeed();
+}
+function rNeed(){
+  $('#need').innerHTML=`<div class="mu" style="margin:0 4px 10px">المعدل محسوب من أول سحب لكل صنف · التغطية 30 يوماً</div><div class="g">${NEED.slice(0,60).map(x=>{const sg=Math.ceil(x.r*30-x.s),c=x.dl<=3?'r':x.dl<=7?'o':'b';
     return `<button class="r" data-a="prod" data-id="${esc(x.p._k)}"><div class="b"><div class="n">${esc(x.p.brandName)}</div><div class="mu">الموجود ${f(x.s)} ${esc(un(x.p))} · ${x.r>0?'يكفي '+(x.dl<1?'أقل من يوم':f(Math.floor(x.dl))+' يوماً'):'بدون سحب'}</div></div>${sg>0?`<span class="pill p-${c}">اطلب ${f(sg)}</span>`:`<span class="pill p-${x.s<=0?'r':'o'}">${x.s<=0?'معدوم':'ناقص'}</span>`}</button>`}).join('')||'<div class="pad mu">كل الأصناف بمستوى آمن</div>'}</div>`;
 }
 function rStk(){
@@ -190,7 +215,7 @@ function rSup(){
 const hdr=()=>`<div class="hd"><button data-a="back">${stack.length>1?'رجوع ›':'إغلاق'}</button></div>`;
 const tl=(k,x,s)=>`<div class="t"><div class="k">${k}</div><div class="x">${x}</div>${s?`<div class="mu">${s}</div>`:''}</div>`;
 const vProd=id=>()=>{const p=PM[id];if(!p)return hdr()+'<div class="pad mu">الصنف غير موجود</div>';
-  const o=D[id]||{days:{}},r=sum(o,30)/30,s=stk(p),u=esc(un(p)),days=[];
+    const o=D[id]||{days:{}},r=rt(o),s=stk(p),u=esc(un(p)),days=[];
   for(let i=29;i>=0;i--)days.push(o.days[dk(Date.now()-i*864e5)]||0);
   const B=[];arr(S.purchases).forEach(x=>(x.items||[]).forEach(it=>{if(prodOf(it)===p)B.push({x,it})}));B.sort((a,b)=>b.x.ts-a.x.ts);
   const L=B[0],base=p.units&&p.units.length>1?`${f(p.stockBase)} ${esc(p.units[0].name)}`:'';
@@ -245,13 +270,16 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-a]');if(!t
   else if(a==='flt'){flt=id;document.querySelectorAll('[data-a=flt]').forEach(b=>b.classList.toggle('on',b===t));lim_.s=40;rStk()}
   else if(a==='go')$('#'+id).scrollIntoView({behavior:'smooth',block:'start'});
   else if(a==='zoom')t.classList.toggle('z');
+  else if(a==='tab'){document.querySelectorAll('.tab').forEach(e=>e.classList.toggle('on',e.dataset.t===id));document.querySelectorAll('.tb button').forEach(b=>b.classList.toggle('on',b.dataset.id===id));scrollTo(0,0)}
   else if(a==='save')save(id)});
 $('#qs').oninput=e=>{qs=e.target.value;lim_.s=40;rStk()};
 $('#qp').oninput=e=>{qp=e.target.value;lim_.p=15;rPur()};
 
 /* الاتصال الحي */
 let tm,first=true;
-function all(){prep();rTop();rRep();rStk();rPur();rSup();if(stack.length)show(1);
+function rSks(){const L=Object.values(PM),z=L.filter(p=>(+p.stockBase||0)<=0).length,lo=L.filter(p=>(+p.stockBase||0)>0&&(+p.stockBase||0)<=lim()*bf(p)).length,ok=L.length-z-lo,n=L.length||1;
+  $('#sks').innerHTML=`<div class="g pad"><div class="stb"><i style="width:${ok/n*100}%;background:var(--gr)"></i><i style="width:${lo/n*100}%;background:var(--or)"></i><i style="width:${z/n*100}%;background:var(--rd)"></i></div><div class="ch"><span class="cg">متوفر ${ok}</span><span style="color:var(--or)">ناقص ${lo}</span><span class="cr">معدوم ${z}</span></div></div><div style="height:12px"></div>`}
+function all(){prep();rTop();rRep();rStk();rSks();rPur();rSup();if(stack.length)show(1);
   $('#dot').classList.add('on');$('#sy').textContent=new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
   if(S.settings&&S.settings.pharmacyName)$('#ttl').textContent=S.settings.pharmacyName;
   if(first){first=false;$('#ld').style.display='none'}}
