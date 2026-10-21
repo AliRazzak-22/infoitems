@@ -160,7 +160,7 @@ firebase.initializeApp({
 });
 const db=firebase.database();
 const S={products:{},sales:{},purchases:{},suppliers:{},payments:{},bonuses:{},settings:null};
-let per=7,flt='all',qs='',qp='',bs='',bp='all',blim=25,stack=[],PM={},PN={},D={},BP={},NEED=[],PC={},POST=[],busy=0;
+let per=7,flt='all',qs='',qp='',bs='',bp='all',blim=25,lim_={r:15,s:40,p:15},stack=[],PM={},PN={},D={},BP={},NEED=[],PC={},POST=[],busy=0;
 
 /* أدوات */
 const $=s=>document.querySelector(s),arr=o=>Object.values(o||{}).filter(x=>x&&!x.deleted);
