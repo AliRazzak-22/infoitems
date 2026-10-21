@@ -100,6 +100,16 @@ main{position:fixed;inset:0;max-width:720px;margin:0 auto;padding:env(safe-area-
 .ts{position:fixed;left:50%;bottom:calc(88px + env(safe-area-inset-bottom));transform:translateX(-50%);background:#1c1c1fea;color:#fff;padding:11px 18px;border-radius:14px;font-size:13.5px;font-weight:600;z-index:90;max-width:86vw;text-align:center;box-shadow:0 10px 26px #0006;animation:tsi .28s ease}
 .ts.o{opacity:0;transition:opacity .42s}
 @keyframes tsi{from{opacity:0;transform:translateX(-50%) translateY(16px)}}
+  html,body{touch-action:manipulation}
+  #fv{position:fixed;inset:0;z-index:100;background:#000;display:none;flex-direction:column}
+#fv.on{display:flex}
+#fv .fh{flex:none;display:flex;align-items:center;gap:12px;padding:calc(10px + env(safe-area-inset-top)) 16px 10px;background:#000}
+#fv .fh button{color:#0a84ff;font-weight:700;font-size:16px;padding:6px 2px}
+#fv .fh span{flex:1;text-align:center;font-size:12px;color:#98989f}
+#fv .fb{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+#fv .fb img{display:block;width:100%;height:auto;margin:0 0 6px;-webkit-touch-callout:default;-webkit-user-select:auto;user-select:auto}
+#fv .fm{color:#98989f;text-align:center;padding:60px 20px}
+.ts{z-index:120}
 </style>
 </head>
 <body>
@@ -147,6 +157,7 @@ main{position:fixed;inset:0;max-width:720px;margin:0 auto;padding:env(safe-area-
 <nav class="tb"><button data-a="tab" data-id="st" class="on">الإحصائيات</button><button data-a="tab" data-id="su">المجهزون</button><button data-a="tab" data-id="nd">النقوصات</button><button data-a="tab" data-id="pu">القوائم</button><button data-a="tab" data-id="bn">البونص</button><button data-a="tab" data-id="sk">المخزن</button></nav>
 <div id="bk" data-a="back"></div>
 <div id="sh"><div id="shc"></div></div>
+  <div id="fv"><div class="fh"><button data-a="fvc">إغلاق ✕</button><span>اضغط مطولاً على الصورة لحفظها</span></div><div class="fb" id="fvb"></div></div>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
@@ -385,14 +396,19 @@ async function papersOf(pu){if(!pu)return[];const out=[];
   for(const id of A(pu.papers)){const d=await paperGet(id);if(d)out.push(d)}
   if(!out.length){const u=legacyImg(pu);if(u)out.push({dataUrl:u,listNum:pu.listNum,supplierName:pu.supplierName,createdAt:pu.ts})}
   return out}
-async function loadPapers(id){const box=$('#pw');if(!box)return;box.dataset.got=box.dataset.got||'';
-  const tag=String(box.dataset.tag||'');box.dataset.tag=id;
-  const pu=arr(S.purchases).find(x=>x.id===id);const ps=await papersOf(pu);
-  if(!box.isConnected||box.dataset.tag!==id)return;
-  if(!ps.length){box.innerHTML='<div class="g pad mu">لا توجد نسخة ورقية لهذه القائمة — تُلتقط من التطبيق الأم «قراءة فاتورة ورقية بالصورة» وتُرفع تلقائياً مع الحفظ</div>';return}
-  box.innerHTML=`<div class="paper">${ps.map(d=>`<img src="${esc(d.dataUrl)}" data-a="zoom" alt="النسخة الورقية">`).join('')}</div>
+function loadPapers(id){const box=$('#pw');if(!box)return;
+  const pu=arr(S.purchases).find(x=>x.id===id);if(!pu)return;
+  const n=A(pu.papers).length||(legacyImg(pu)?1:0);
+  if(!n){box.innerHTML='<div class="g pad mu">لا توجد نسخة ورقية لهذه القائمة — تُلتقط من التطبيق الأم «قراءة فاتورة ورقية بالصورة» وتُرفع تلقائياً مع الحفظ</div>';return}
+  box.innerHTML=`<button class="btn" style="margin-top:0" data-a="vpap" data-id="${esc(id)}">عرض النسخة الورقية${n>1?' ('+n+' صور)':''}</button>
   <button class="btn" data-a="shimg" data-id="${esc(id)}">مشاركة الصور — واتساب / تليقرام / حفظ</button>
   <button class="btn gr" data-a="shpdf" data-id="${esc(id)}">تحويلها إلى PDF ومشاركتها</button>`}
+async function viewPap(id){const pu=arr(S.purchases).find(x=>x.id===id);if(!pu)return;
+  const fv=$('#fv'),b=$('#fvb');fv.classList.add('on');b.scrollTop=0;
+  b.innerHTML='<div class="fm"><div class="sp" style="margin:0 auto 14px"></div>جارٍ تحميل النسخة الورقية…</div>';
+  const ps=await papersOf(pu);
+  if(!fv.classList.contains('on'))return;
+  b.innerHTML=ps.length?ps.map(d=>`<img src="${esc(d.dataUrl)}" alt="النسخة الورقية">`).join(''):'<div class="fm">لا توجد نسخة ورقية لهذه القائمة</div>'}
 const listsFor=(p,from,to)=>arr(S.purchases).filter(x=>x.type!=='return'&&A(x.items).some(i=>i.productId===p._k||prodOf(i)===p))
   .filter(x=>{const d=x.date||dk(x.ts);return(!from||d>=from)&&(!to||d<=to)}).sort((a,b)=>a.ts-b.ts);
 const l16=s=>{const a=new Uint8Array(s.length);for(let i=0;i<s.length;i++)a[i]=s.charCodeAt(i)&255;return a};
@@ -523,11 +539,17 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-a]');if(!t
   else if(a==='ig'){const l=ign(),i=l.indexOf(id);i<0?l.push(id):l.splice(i,1);setIgn(l);NEED.forEach(x=>x.ig=l.includes(x.p._k));NEED.sort(ns);rNeed()}
   else if(a==='shimg')invImgs(id)
   else if(a==='shpdf')invPdf(id)
-  else if(a==='papx')exportPap(id)});
+   else if(a==='papx')exportPap(id)
+  else if(a==='vpap')viewPap(id)
+  else if(a==='fvc'){$('#fv').classList.remove('on');$('#fvb').innerHTML=''}});
 $('#qs').oninput=e=>{qs=e.target.value;lim_.s=40;rStk()};
 $('#qp').oninput=e=>{qp=e.target.value;lim_.p=15;rPur()};
 $('#qb').oninput=e=>{bs=e.target.value;blim=25;rBns()};
-                                      
+
+  let lastTap=0;
+document.addEventListener('touchend',e=>{const n=Date.now();
+  if(n-lastTap<300&&e.cancelable&&!e.target.closest('input,textarea'))e.preventDefault();
+  lastTap=n},{passive:false});
 /* الاتصال الحي */
 const LD={},ERR=[];let CONN=0;
 const rsn=e=>{const m=String((e&&(e.code||e.message))||e||'');if(ERR.indexOf(m)<0)ERR.push(m);mark()};
@@ -566,13 +588,16 @@ function fin(){TK.classList.remove('dg');
   else if(gb)go(tg);
   hs=[];lk=0;gb=0}
 VP.addEventListener('touchend',fin,{passive:true});VP.addEventListener('touchcancel',fin,{passive:true});
-let tm,first=true;
+let tm,first=true,FORCE=0;
+setTimeout(()=>{FORCE=1;mark()},8000);
+function intro(){if(matchMedia('(prefers-reduced-motion:reduce)').matches||!Element.prototype.animate)return;
+  [...$('#rep').children].forEach((el,i)=>el.animate([{opacity:0,transform:'translateY(18px)'},{opacity:1,transform:'none'}],{duration:700,delay:i*70,easing:'cubic-bezier(.2,.8,.2,1)',fill:'backwards'}))}
 function rSks(){const L=Object.values(PM),z=L.filter(p=>(+p.stockBase||0)<=0).length,lo=L.filter(p=>(+p.stockBase||0)>0&&(+p.stockBase||0)<=lim()*bf(p)).length,ok=L.length-z-lo,n=L.length||1;
   $('#sks').innerHTML=`<div class="g pad"><div class="stb"><i style="width:${ok/n*100}%;background:var(--gr)"></i><i style="width:${lo/n*100}%;background:var(--or)"></i><i style="width:${z/n*100}%;background:var(--rd)"></i></div><div class="ch"><span class="cg">متوفر ${ok}</span><span style="color:var(--or)">ناقص ${lo}</span><span class="cr">معدوم ${z}</span></div></div><div style="height:12px"></div>`}
 function all(){if(BZ){PD=1;return}prep();rRep();rStk();rSks();rPur();rBns();rSup();if(stack.length)show(1);
   $('#dot').classList.add('on');$('#sy').textContent=new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
   if(S.settings&&S.settings.pharmacyName)$('#ttl').textContent=S.settings.pharmacyName;
-  if(first&&LD.products===2){first=false;document.body.classList.add('rd','fr');$('#ld').classList.add('fd');setTimeout(()=>{$('#ld').remove();document.body.classList.remove('fr')},1600)}}
+  if(first&&LD.products===2&&(LD.sales===2||FORCE)){first=false;document.body.classList.add('rd');intro();$('#ld').classList.add('fd');setTimeout(()=>{const l=$('#ld');if(l)l.remove()},1000)}}
 const mark=()=>{clearTimeout(tm);tm=setTimeout(all,150)};
 function attach(){
   db.ref('pos/settings/app').on('value',s=>{S.settings=s.val();mark()});
