@@ -110,6 +110,9 @@ main{position:fixed;inset:0;max-width:720px;margin:0 auto;padding:env(safe-area-
 #fv .fb img{display:block;width:100%;height:auto;margin:0 0 6px;-webkit-touch-callout:default;-webkit-user-select:auto;user-select:auto}
 #fv .fm{color:#98989f;text-align:center;padding:60px 20px}
 .ts{z-index:120}
+  .pbr{display:flex;gap:8px;margin-top:10px}
+.pb{flex:1;min-width:0;padding:9px 6px;border-radius:12px;background:var(--c2);color:var(--bl);font-size:13px;font-weight:700;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pb:active{opacity:.55}
 </style>
 </head>
 <body>
@@ -352,7 +355,7 @@ const vProd=id=>()=>{const p=PM[id];if(!p)return hdr()+'<div class="pad mu">ال
     <h2 style="font-size:18px">السحب اليومي (30 يوماً)</h2><div class="g pad">${bars(days)}</div>
   <h2 style="font-size:18px">النسخ الورقية</h2>
   <div class="g pad"><div class="mu" style="margin-bottom:8px">يجمع كل صور القوائم التي فيها هذه المادة ضمن مدة تحددها أنت، في ملف PDF واحد — ثم يفتح مشاركة آيفون مباشرة (واتساب، تليقرام، حفظ في الملفات) بلا نزول المتصفح.</div>
-  <button class="btn" data-a="pap" data-id="${esc(id)}">اختيار المدة وتجميع PDF</button></div>
+  <div class="pbr"><button class="pb" data-a="pap" data-id="${esc(id)}">اختيار المدة وتجميع PDF</button></div></div>
   <h2 style="font-size:18px">آخر شراء</h2>
   ${L?`<div class="g"><button class="r" data-a="inv" data-id="${esc(L.x.id)}"><div class="b"><div class="n">${esc(L.x.supplierName||'—')}</div><div class="mu">${dt(L.x.ts)} · سعر الشراء ${f(L.it.buyPrice)} ${esc(cur())} · ${A(L.x.papers).length} نسخة ورقية</div></div><div class="v">${f(L.it.qty)} ${esc(L.it.unitName||'')}<div class="${itBon(L.x,L.it)?'cg':'mu'}" style="font-size:12px">بونص ${f(itBon(L.x,L.it))}</div></div></button></div>`:'<div class="g pad mu">لا توجد مشتريات مسجلة</div>'}
   ${B.length>1?`<h2 style="font-size:18px">حركة الشراء</h2><div class="g">${B.slice(0,20).map(({x,it})=>`<button class="r" data-a="inv" data-id="${esc(x.id)}"><div class="b"><div class="n">${esc(x.supplierName||'—')}</div><div class="mu">${dt(x.ts)}${x.type==='return'?' · استرجاع':''} · ${f(it.buyPrice)}${A(x.papers).length?' · نسخة ورقية':''}</div></div><div class="v">${f(it.qty)} ${esc(it.unitName||'')}${itBon(x,it)?`<div class="cg" style="font-size:12px">+${f(itBon(x,it))} بونص</div>`:''}</div></button>`).join('')}</div>`:''}`};
@@ -399,10 +402,8 @@ async function papersOf(pu){if(!pu)return[];const out=[];
 function loadPapers(id){const box=$('#pw');if(!box)return;
   const pu=arr(S.purchases).find(x=>x.id===id);if(!pu)return;
   const n=A(pu.papers).length||(legacyImg(pu)?1:0);
-  if(!n){box.innerHTML='<div class="g pad mu">لا توجد نسخة ورقية لهذه القائمة — تُلتقط من التطبيق الأم «قراءة فاتورة ورقية بالصورة» وتُرفع تلقائياً مع الحفظ</div>';return}
-  box.innerHTML=`<button class="btn" style="margin-top:0" data-a="vpap" data-id="${esc(id)}">عرض النسخة الورقية${n>1?' ('+n+' صور)':''}</button>
-  <button class="btn" data-a="shimg" data-id="${esc(id)}">مشاركة الصور — واتساب / تليقرام / حفظ</button>
-  <button class="btn gr" data-a="shpdf" data-id="${esc(id)}">تحويلها إلى PDF ومشاركتها</button>`}
+  if(!n){box.innerHTML='<div class="g pad mu">لا توجد نسخة ورقية لهذه القائمة</div>';return}
+    box.innerHTML=`<div class="pbr"><button class="pb" data-a="vpap" data-id="${esc(id)}">عرض النسخة${n>1?' ('+n+')':''}</button><button class="pb" data-a="shimg" data-id="${esc(id)}">مشاركة الصور</button><button class="pb" data-a="shpdf" data-id="${esc(id)}">PDF</button></div>`}
 async function viewPap(id){const pu=arr(S.purchases).find(x=>x.id===id);if(!pu)return;
   const fv=$('#fv'),b=$('#fvb');fv.classList.add('on');b.scrollTop=0;
   b.innerHTML='<div class="fm"><div class="sp" style="margin:0 auto 14px"></div>جارٍ تحميل النسخة الورقية…</div>';
