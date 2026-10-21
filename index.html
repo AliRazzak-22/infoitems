@@ -508,9 +508,6 @@ async function exportPap(id){const p=PM[id];if(!p)return;
 /* الأحداث */
 document.addEventListener('click',e=>{const t=e.target.closest('[data-a]');if(!t)return;const a=t.dataset.a,id=t.dataset.id;
   if(a==='prod'||a==='inv'||a==='sup'){ld('purchases');ld('payments')}
-  if(a==='prod')push(vProd(id));else if(a==='inv')push(vInv(id));else if(a==='sup')push(vSup(id));
-  document.addEventListener('click',e=>{const t=e.target.closest('[data-a]');if(!t)return;const a=t.dataset.a,id=t.dataset.id;
-  if(a==='prod'||a==='inv'||a==='sup'){ld('purchases');ld('payments')}
   if(a==='bon'||a==='pap'||a==='papx'||a==='shimg'||a==='shpdf'){ld('purchases');ld('bonuses')}
   if(a==='prod')push(vProd(id));else if(a==='inv')push(vInv(id));else if(a==='sup')push(vSup(id));
   else if(a==='bon')push(vBon(id));else if(a==='pap')push(vPap(id));
