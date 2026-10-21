@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#f2f2f7" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https: wss: data: blob:; img-src 'self' data: blob: https:;">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' https://www.gstatic.com https://healingpath-51637-default-rtdb.europe-west1.firebasedatabase.app; frame-src https://healingpath-51637-default-rtdb.europe-west1.firebasedatabase.app; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https: wss: data: blob:; img-src 'self' data: blob: https:;">
 <title>تقرير مشتريات</title>
 <link rel="apple-touch-icon" href="logo.png">
 <link rel="icon" href="logo.png">
@@ -576,8 +576,10 @@ function attach(){
   ld('products');ld('suppliers');ld('sales');
    setTimeout(()=>{ld('purchases');ld('payments');ld('bonuses')},2500);
 }
+const noData=()=>{const L=$('#ld');if(!L||LD.products===2)return;L.innerHTML='<div style="padding:24px;text-align:center"><div style="font-weight:700;margin-bottom:8px">لا توجد بيانات من السحابة</div><div class="mu" style="margin-bottom:14px">تعذّر الوصول إلى قاعدة البيانات — تحقق من الاتصال ثم أعد المحاولة</div><button class="btn" onclick="location.reload()">إعادة المحاولة</button></div>'};
 firebase.auth().onAuthStateChanged(u=>{if(u)attach()});
 firebase.auth().signInAnonymously().catch(e=>{$('#ld').innerHTML='<div style="padding:24px;text-align:center;color:var(--rd)">تعذر الاتصال: '+esc(e.message)+'</div>'});
+setTimeout(noData,12000);
 </script>
 </body>
 </html>
